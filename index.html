@@ -1,0 +1,1743 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>For Abe ❤️</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* =========================================================
+       DESIGN TOKENS
+       Ganti nilai di sini kalau mau ubah warna/nuansa web-nya.
+    ========================================================= */
+      :root {
+        --cream: #fff6f8;
+        --blush: #fbe4ea;
+        --ink: #5c2a3d;
+        --rose: #a9506b;
+        --rose-deep: #7c3b52;
+        --rose-soft: #d98aa2;
+        --muted: #7a5c66;
+        --gold: #c9a15a;
+        --paper: #fffdf8;
+        --line: rgba(169, 80, 107, 0.18);
+
+        --font-display: "Playfair Display", "Georgia", serif;
+        --font-body: "Lora", "Georgia", serif;
+        --font-script: "Caveat", cursive;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--font-body);
+        background: var(--cream);
+        color: var(--ink);
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+      button,
+      input {
+        font-family: inherit;
+      }
+      img {
+        max-width: 100%;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+
+      :focus-visible {
+        outline: 2px solid var(--rose-deep);
+        outline-offset: 3px;
+      }
+
+      /* =========================================================
+       PIN SCREEN
+    ========================================================= */
+      #pinScreen {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        background:
+          radial-gradient(circle at 18% 18%, var(--blush) 0%, transparent 32%),
+          radial-gradient(circle at 82% 82%, #f6d3de 0%, transparent 32%),
+          var(--cream);
+        transition:
+          opacity 0.7s ease,
+          visibility 0.7s ease;
+      }
+      #pinScreen.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .pin-box {
+        width: min(92%, 420px);
+        padding: 46px 32px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid var(--line);
+        border-radius: 26px;
+        box-shadow: 0 24px 60px rgba(124, 59, 82, 0.14);
+        backdrop-filter: blur(10px);
+      }
+      .pin-heart {
+        font-size: 44px;
+        margin-bottom: 14px;
+        animation: heartbeat 1.6s ease-in-out infinite;
+      }
+      @keyframes heartbeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      .pin-box h1 {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 28px;
+        color: var(--rose-deep);
+        margin-bottom: 10px;
+      }
+      .pin-box p {
+        font-size: 14.5px;
+        line-height: 1.7;
+        color: var(--muted);
+        margin-bottom: 24px;
+      }
+
+      .pin-input {
+        width: 100%;
+        padding: 15px;
+        text-align: center;
+        letter-spacing: 9px;
+        font-size: 20px;
+        border: 1px solid #e4bdc9;
+        border-radius: 14px;
+        outline: none;
+        background: #fffafb;
+        color: #713d50;
+      }
+      .pin-input:focus {
+        border-color: var(--rose);
+        box-shadow: 0 0 0 4px rgba(169, 80, 107, 0.12);
+      }
+
+      .pin-button {
+        width: 100%;
+        margin-top: 14px;
+        padding: 14px;
+        border: none;
+        border-radius: 14px;
+        background: var(--rose);
+        color: #fff;
+        font-size: 15px;
+        cursor: pointer;
+        transition:
+          background 0.25s ease,
+          transform 0.25s ease;
+        min-height: 48px;
+      }
+      .pin-button:hover {
+        background: var(--rose-deep);
+        transform: translateY(-2px);
+      }
+      .pin-button:active {
+        transform: translateY(0);
+      }
+
+      .pin-error {
+        min-height: 20px;
+        margin-top: 12px;
+        font-size: 13px;
+        color: #c64d65;
+      }
+
+      /* =========================================================
+       LAYOUT PRIMITIVES
+    ========================================================= */
+      #mainContent {
+        display: none;
+      }
+      section {
+        padding: 100px 20px;
+      }
+      .container {
+        width: min(1080px, 100%);
+        margin: auto;
+      }
+
+      .eyebrow {
+        display: block;
+        text-align: center;
+        font-family: var(--font-script);
+        font-size: 22px;
+        color: var(--rose);
+        margin-bottom: 6px;
+      }
+      .section-title {
+        text-align: center;
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: clamp(32px, 4.6vw, 48px);
+        color: var(--rose-deep);
+        margin-bottom: 18px;
+      }
+      .section-intro {
+        max-width: 620px;
+        margin: 0 auto 56px;
+        text-align: center;
+        font-size: 16px;
+        line-height: 1.85;
+        color: var(--muted);
+      }
+
+      /* =========================================================
+       HERO
+    ========================================================= */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 60px 20px;
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 12% 22%, var(--blush) 0%, transparent 30%),
+          radial-gradient(circle at 88% 78%, #f6d3de 0%, transparent 32%),
+          var(--cream);
+      }
+      .hero-content {
+        max-width: 760px;
+        position: relative;
+        z-index: 2;
+      }
+      .hero .eyebrow {
+        font-size: 26px;
+      }
+      .hero h1 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(42px, 8vw, 78px);
+        line-height: 1.08;
+        color: var(--rose-deep);
+        margin-bottom: 22px;
+      }
+      .hero h1 em {
+        font-style: italic;
+        color: var(--rose);
+      }
+      .hero-description {
+        max-width: 600px;
+        margin: auto;
+        font-size: 17px;
+        line-height: 1.9;
+        color: var(--muted);
+      }
+      .hero-date {
+        margin-top: 26px;
+        font-family: var(--font-script);
+        font-size: 20px;
+        color: var(--rose);
+      }
+      .scroll-down {
+        margin-top: 44px;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        color: var(--rose-deep);
+        font-size: 13px;
+        letter-spacing: 0.5px;
+      }
+      .scroll-down .arrow {
+        font-size: 20px;
+        animation: bounce 1.6s ease-in-out infinite;
+      }
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(7px);
+        }
+      }
+
+      /* =========================================================
+       STORY
+    ========================================================= */
+      .story {
+        background: #fff;
+      }
+      .story-text {
+        max-width: 640px;
+        margin: auto;
+        font-size: 18px;
+        line-height: 1.95;
+        color: #5b444d;
+      }
+      .story-text p {
+        margin-bottom: 26px;
+      }
+      .story-text p:last-child {
+        margin-bottom: 0;
+      }
+      .story-text strong {
+        color: var(--rose);
+        font-weight: 600;
+      }
+
+      /* =========================================================
+       TIMELINE
+    ========================================================= */
+      .timeline {
+        background: var(--cream);
+      }
+      .timeline-track {
+        position: relative;
+        max-width: 760px;
+        margin: auto;
+        padding-left: 0;
+      }
+      .timeline-track::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 24px;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          var(--rose-soft) 8%,
+          var(--rose-soft) 92%,
+          transparent
+        );
+      }
+      .timeline-item {
+        position: relative;
+        padding: 0 0 44px 64px;
+        min-height: 1px;
+      }
+      .timeline-item:last-child {
+        padding-bottom: 0;
+      }
+      .timeline-dot {
+        position: absolute;
+        left: 24px;
+        top: 4px;
+        transform: translateX(-50%);
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--paper);
+        border: 3px solid var(--rose);
+        box-shadow: 0 0 0 5px var(--cream);
+      }
+      .timeline-item.is-milestone .timeline-dot {
+        background: var(--rose);
+      }
+      .timeline-item .t-date {
+        font-family: var(--font-script);
+        font-size: 21px;
+        color: var(--rose);
+        display: block;
+        margin-bottom: 4px;
+      }
+      .timeline-item h3 {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 20px;
+        color: var(--rose-deep);
+        margin-bottom: 8px;
+      }
+      .timeline-item p {
+        font-size: 15px;
+        line-height: 1.8;
+        color: var(--muted);
+        max-width: 520px;
+      }
+      .timeline-item.add-more {
+        opacity: 0.75;
+      }
+      .timeline-item.add-more .timeline-dot {
+        border-style: dashed;
+      }
+      .timeline-item.add-more p {
+        font-style: italic;
+      }
+
+      /* =========================================================
+       MEMORIES — polaroid grid
+    ========================================================= */
+      .memories {
+        background: #fff;
+      }
+      .memory-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 34px 26px;
+      }
+      .memory-card {
+        background: var(--paper);
+        padding: 14px 14px 20px;
+        border-radius: 4px;
+        box-shadow: 0 10px 26px rgba(92, 42, 61, 0.12);
+        cursor: pointer;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        transform: rotate(var(--tilt, -1.5deg));
+      }
+      .memory-card:nth-child(3n + 1) {
+        --tilt: -2deg;
+      }
+      .memory-card:nth-child(3n + 2) {
+        --tilt: 1.4deg;
+      }
+      .memory-card:nth-child(3n + 3) {
+        --tilt: -0.8deg;
+      }
+      .memory-card:hover,
+      .memory-card:focus-visible {
+        transform: rotate(0deg) translateY(-6px);
+        box-shadow: 0 20px 40px rgba(92, 42, 61, 0.2);
+      }
+      .memory-photo {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4/5;
+        overflow: hidden;
+        background: linear-gradient(135deg, var(--blush), #f4d6de);
+      }
+      .memory-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .memory-photo .ph-fallback {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        color: var(--rose);
+        font-family: var(--font-script);
+        font-size: 18px;
+        text-align: center;
+        padding: 14px;
+      }
+      .memory-photo .ph-fallback .ph-icon {
+        font-size: 26px;
+      }
+      .memory-photo img.loaded ~ .ph-fallback {
+        display: none;
+      }
+
+      .memory-info {
+        padding: 16px 6px 0;
+        text-align: center;
+      }
+      .memory-number {
+        font-family: var(--font-script);
+        font-size: 17px;
+        color: var(--rose);
+        margin-bottom: 2px;
+      }
+      .memory-info h3 {
+        font-family: var(--font-display);
+        font-size: 18px;
+        color: var(--rose-deep);
+        margin-bottom: 3px;
+      }
+      .memory-date {
+        font-size: 12.5px;
+        color: var(--muted);
+      }
+
+      /* =========================================================
+       SPECIAL MEMORY
+    ========================================================= */
+      .special {
+        background: var(--cream);
+      }
+      .special-box {
+        max-width: 820px;
+        margin: auto;
+        padding: 54px 40px;
+        border-radius: 26px;
+        background: linear-gradient(160deg, #fff 0%, var(--blush) 130%);
+        text-align: center;
+        border: 1px solid var(--line);
+      }
+      .special-icon {
+        font-size: 34px;
+        margin-bottom: 16px;
+      }
+      .special-box h2 {
+        font-family: var(--font-display);
+        font-weight: 600;
+        font-size: 32px;
+        color: var(--rose-deep);
+        margin-bottom: 18px;
+      }
+      .special-box p {
+        font-size: 16.5px;
+        line-height: 2;
+        color: #674f58;
+        max-width: 600px;
+        margin: 0 auto 16px;
+      }
+      .special-box p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* =========================================================
+       COUNTDOWN
+    ========================================================= */
+      .countdown {
+        background: #fff;
+      }
+      .countdown-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        max-width: 760px;
+        margin: auto;
+      }
+      .countdown-card {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 30px 20px;
+        text-align: center;
+      }
+      .countdown-card h3 {
+        font-family: var(--font-display);
+        font-size: 17px;
+        color: var(--rose-deep);
+        margin-bottom: 18px;
+        font-weight: 600;
+      }
+      .countdown-numbers {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .cd-unit {
+        min-width: 56px;
+      }
+      .cd-unit .num {
+        font-family: var(--font-script);
+        font-size: 34px;
+        color: var(--rose);
+        line-height: 1;
+        display: block;
+      }
+      .cd-unit .label {
+        font-size: 11px;
+        color: var(--muted);
+        letter-spacing: 0.5px;
+        margin-top: 4px;
+        display: block;
+      }
+
+      /* =========================================================
+       LETTER
+    ========================================================= */
+      .letter-section {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        background:
+          radial-gradient(circle at 15% 20%, var(--blush) 0%, transparent 26%),
+          radial-gradient(circle at 85% 80%, #f4cddc 0%, transparent 28%),
+          var(--cream);
+      }
+      .letter-intro {
+        text-align: center;
+        width: 100%;
+      }
+      .envelope {
+        width: 170px;
+        height: 120px;
+        margin: 38px auto;
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.35s ease;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .envelope:hover,
+      .envelope:focus-visible {
+        transform: translateY(-6px) scale(1.03);
+      }
+      .envelope-body {
+        position: absolute;
+        inset: 0;
+        background: var(--rose-soft);
+        border-radius: 8px;
+        box-shadow: 0 16px 32px rgba(124, 59, 82, 0.18);
+      }
+      .envelope-flap {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 85px solid transparent;
+        border-right: 85px solid transparent;
+        border-top: 65px solid #e6a0b3;
+        z-index: 3;
+        transform-origin: top center;
+        transition: transform 0.5s ease;
+      }
+      .envelope-heart {
+        position: absolute;
+        z-index: 5;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -25%);
+        font-size: 26px;
+      }
+      .letter-hint {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .letter-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        background: rgba(50, 25, 35, 0.66);
+        backdrop-filter: blur(7px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 18px;
+      }
+      .letter-modal.show {
+        display: flex;
+      }
+      .letter-paper {
+        position: relative;
+        width: min(760px, 100%);
+        max-height: 88vh;
+        overflow-y: auto;
+        padding: 56px clamp(24px, 6vw, 68px);
+        border-radius: 10px;
+        background: var(--paper);
+        box-shadow: 0 26px 70px rgba(0, 0, 0, 0.22);
+        animation: paperIn 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+      }
+      @keyframes paperIn {
+        from {
+          opacity: 0;
+          transform: translateY(18px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .close-letter,
+      .close-photo,
+      .close-lightbox {
+        position: absolute;
+        top: 14px;
+        right: 16px;
+        width: 38px;
+        height: 38px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.92);
+        color: var(--rose-deep);
+        cursor: pointer;
+        font-size: 19px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .letter-paper h2 {
+        text-align: center;
+        font-family: var(--font-display);
+        font-weight: 600;
+        color: var(--rose-deep);
+        font-size: 32px;
+        margin-bottom: 32px;
+      }
+      .letter-paper p {
+        font-size: 16px;
+        line-height: 1.95;
+        color: #55454a;
+        margin-bottom: 19px;
+      }
+      .letter-signature {
+        margin-top: 36px;
+        text-align: right;
+        color: var(--rose-deep) !important;
+        font-style: italic;
+      }
+
+      /* =========================================================
+       FOOTER
+    ========================================================= */
+      footer {
+        padding: 44px 20px;
+        text-align: center;
+        background: var(--rose-deep);
+        color: #fcecf1;
+      }
+      footer p {
+        font-size: 13px;
+        letter-spacing: 0.5px;
+      }
+      footer .foot-script {
+        font-family: var(--font-script);
+        font-size: 20px;
+        margin-top: 6px;
+        opacity: 0.9;
+      }
+
+      /* =========================================================
+       LIGHTBOX (photo viewer)
+    ========================================================= */
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 9998;
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 16px;
+        background: rgba(30, 15, 20, 0.88);
+        backdrop-filter: blur(6px);
+        touch-action: pan-y;
+      }
+      .lightbox.show {
+        display: flex;
+      }
+      .lightbox-inner {
+        width: min(920px, 100%);
+        max-height: 92vh;
+        overflow-y: auto;
+        background: var(--paper);
+        border-radius: 20px;
+        position: relative;
+        overflow-x: hidden;
+      }
+      .lightbox-photo {
+        width: 100%;
+        aspect-ratio: 16/11;
+        position: relative;
+        background: linear-gradient(135deg, var(--blush), #f4d6de);
+        overflow: hidden;
+      }
+      .lightbox-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .lightbox-photo .ph-fallback {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        color: var(--rose);
+        font-family: var(--font-script);
+        font-size: 22px;
+      }
+      .lightbox-content {
+        padding: 26px 30px 32px;
+      }
+      .lightbox-content .lb-count {
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        color: var(--rose);
+        margin-bottom: 8px;
+      }
+      .lightbox-content .lb-date {
+        font-family: var(--font-script);
+        font-size: 19px;
+        color: var(--rose);
+        margin-bottom: 6px;
+      }
+      .lightbox-content h2 {
+        font-family: var(--font-display);
+        color: var(--rose-deep);
+        font-size: 26px;
+        margin-bottom: 12px;
+      }
+      .lightbox-content p {
+        color: #624f57;
+        line-height: 1.85;
+        font-size: 15.5px;
+      }
+
+      .lb-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.85);
+        color: var(--rose-deep);
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 4;
+      }
+      .lb-prev {
+        left: 14px;
+      }
+      .lb-next {
+        right: 14px;
+      }
+      .lb-nav:disabled {
+        opacity: 0.35;
+        cursor: default;
+      }
+
+      /* =========================================================
+       FLOATING HEARTS
+    ========================================================= */
+      .floating-heart {
+        position: fixed;
+        bottom: -30px;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0;
+        animation: floatHeart 7s linear forwards;
+      }
+      @keyframes floatHeart {
+        0% {
+          transform: translateY(0) rotate(0);
+          opacity: 0;
+        }
+        15% {
+          opacity: 0.65;
+        }
+        100% {
+          transform: translateY(-110vh) rotate(25deg);
+          opacity: 0;
+        }
+      }
+
+      /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+      @media (max-width: 850px) {
+        .memory-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 600px) {
+        section {
+          padding: 72px 18px;
+        }
+        .hero {
+          padding: 50px 18px;
+        }
+        .hero-description {
+          font-size: 15.5px;
+        }
+        .story-text {
+          font-size: 16.5px;
+        }
+        .memory-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 22px 16px;
+        }
+        .special-box {
+          padding: 38px 22px;
+        }
+        .special-box h2 {
+          font-size: 27px;
+        }
+        .countdown-grid {
+          grid-template-columns: 1fr;
+        }
+        .letter-paper {
+          padding: 44px 20px;
+        }
+        .letter-paper h2 {
+          font-size: 27px;
+        }
+        .timeline-track::before {
+          left: 18px;
+        }
+        .timeline-item {
+          padding-left: 48px;
+          padding-bottom: 36px;
+        }
+        .timeline-dot {
+          left: 18px;
+        }
+        .lightbox-content {
+          padding: 20px 18px 26px;
+        }
+        .lb-nav {
+          width: 38px;
+          height: 38px;
+          font-size: 17px;
+        }
+        .lb-prev {
+          left: 8px;
+        }
+        .lb-next {
+          right: 8px;
+        }
+        .pin-box {
+          padding: 38px 22px;
+        }
+      }
+
+      @media (max-width: 380px) {
+        .memory-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- =========================================================
+     PIN SCREEN
+     Ganti PIN di variabel `correctPin` pada <script> di bawah.
+========================================================= -->
+    <div id="pinScreen">
+      <div class="pin-box">
+        <div class="pin-heart">❤️</div>
+        <h1>A Little Surprise</h1>
+        <p>
+          Ada sesuatu yang J buat khusus untuk seseorang yang sangat berarti.
+        </p>
+        <input
+          type="password"
+          id="pinInput"
+          class="pin-input"
+          maxlength="6"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="••••••"
+          aria-label="Masukkan PIN"
+        />
+        <button class="pin-button" onclick="checkPin()">
+          Buka Surprise 💌
+        </button>
+        <div class="pin-error" id="pinError" role="alert"></div>
+      </div>
+    </div>
+
+    <main id="mainContent">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-content">
+          <span class="eyebrow">a little something for you</span>
+          <h1>Happy Birthday,<br /><em>Abe</em> ❤️</h1>
+          <p class="hero-description">
+            Hari ini adalah hari spesial seseorang yang lahir pada 14 Oktober
+            2002. Seseorang yang awalnya hanya aku kenal di kampus, tapi
+            akhirnya menjadi salah satu bagian paling berarti dalam hidupku.
+          </p>
+          <div class="hero-date">14 Oktober • 24 tahun</div>
+          <a href="#story" class="scroll-down">
+            Yuk lihat kembali cerita kita
+            <span class="arrow">↓</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- STORY -->
+      <section class="story" id="story">
+        <div class="container">
+          <span class="eyebrow">chapter one</span>
+          <h2 class="section-title">Cerita Yang Dimulai Dari Kita</h2>
+          <p class="section-intro">
+            Kadang sebuah cerita besar dimulai dari sesuatu yang terlihat sangat
+            sederhana.
+          </p>
+
+          <div class="story-text">
+            <p>
+              Kalau dipikir-pikir, lucu juga bagaimana semuanya bisa dimulai.
+            </p>
+            <p>
+              Tahun <strong>2021</strong>, kita pertama kali bertemu di kampus,
+              di jurusan Kewirausahaan. Saat itu mungkin kita sama-sama nggak
+              pernah membayangkan kalau perkenalan sederhana itu suatu hari akan
+              membawa kita sampai sejauh ini.
+            </p>
+            <p>
+              Kemudian Januari <strong>2022</strong>, kita mulai semakin dekat.
+            </p>
+            <p>
+              Sampai akhirnya pada <strong>22 Januari 2022</strong>, kita
+              memulai sebuah cerita yang sampai sekarang masih terus kita tulis
+              bersama.
+            </p>
+            <p>
+              Ada tawa, cerita-cerita kecil, perjalanan, perbedaan pendapat,
+              hari-hari yang mudah, dan juga hari-hari yang tidak mudah. Tapi
+              semuanya menjadi bagian dari kita.
+            </p>
+            <p>
+              Dan di bawah ini adalah sebagian kecil dari perjalanan serta 15
+              foto kenangan yang sudah kita lewati bersama.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TIMELINE -->
+      <section class="timeline" id="timeline">
+        <div class="container">
+          <span class="eyebrow">chapter two</span>
+          <h2 class="section-title">Perjalanan Kita</h2>
+          <p class="section-intro">
+            Beberapa titik yang menandai perjalanan kita sampai hari ini. Boleh
+            banget ditambah lagi milestone-nya, ya.
+          </p>
+
+          <div class="timeline-track" id="timelineTrack">
+            <!-- Item timeline dibuat otomatis dari array `timelineData` di bawah -->
+          </div>
+        </div>
+      </section>
+
+      <!-- MEMORIES -->
+      <section class="memories">
+        <div class="container">
+          <span class="eyebrow">chapter three</span>
+          <h2 class="section-title">15 Momen Kecil</h2>
+          <p class="section-intro">
+            Klik setiap foto untuk melihat cerita kecil di baliknya.
+          </p>
+
+          <div class="memory-grid" id="memoryGrid">
+            <!-- Card dibuat otomatis oleh JavaScript dari array `memories` -->
+          </div>
+        </div>
+      </section>
+
+      <!-- SPECIAL MEMORY -->
+      <section class="special">
+        <div class="container">
+          <div class="special-box">
+            <div class="special-icon">🤍</div>
+            <h2>Saat Kamu Ada Untukku</h2>
+            <p>
+              Ada satu momen yang sampai sekarang masih aku ingat. Saat aku
+              sedang sakit, kamu datang menjenguk dan menjagaku.
+            </p>
+            <p>
+              Mungkin buat kamu itu adalah hal kecil. Tapi buat aku, kehadiran
+              kamu di saat seperti itu berarti banyak.
+            </p>
+            <p>
+              Terima kasih sudah pernah ada di saat aku sedang tidak baik-baik
+              saja.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- COUNTDOWN -->
+      <section class="countdown">
+        <div class="container">
+          <span class="eyebrow">chapter four</span>
+          <h2 class="section-title">Menghitung Hari</h2>
+          <p class="section-intro">Menuju perayaan-perayaan kita berikutnya.</p>
+
+          <div class="countdown-grid">
+            <div class="countdown-card">
+              <h3>Menuju Ulang Tahun Abe Berikutnya</h3>
+              <div class="countdown-numbers" id="cdBirthday"></div>
+            </div>
+            <div class="countdown-card">
+              <h3>Menuju Hari Jadi Kita Berikutnya</h3>
+              <div class="countdown-numbers" id="cdAnniversary"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LETTER -->
+      <section class="letter-section">
+        <div class="container">
+          <div class="letter-intro">
+            <span class="eyebrow">one last thing</span>
+            <h2 class="section-title">Surat Untuk Abe</h2>
+            <p class="section-intro">
+              Kalau semua foto dan cerita tadi adalah bagian dari perjalanan
+              kita, ada satu hal terakhir yang ingin aku sampaikan.
+            </p>
+
+            <div
+              class="envelope"
+              onclick="openLetter()"
+              role="button"
+              tabindex="0"
+              aria-label="Buka surat"
+              onkeydown="if (event.key === 'Enter') openLetter();"
+            >
+              <div class="envelope-body"></div>
+              <div class="envelope-flap"></div>
+              <div class="envelope-heart">❤️</div>
+            </div>
+            <p class="letter-hint">Klik surat untuk membukanya 💌</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer>
+        <p>Made with love, for Abe ❤️</p>
+        <div class="foot-script">14 Oktober 2002</div>
+      </footer>
+    </main>
+
+    <!-- =========================================================
+     LIGHTBOX (photo viewer, mendukung swipe di mobile)
+========================================================= -->
+    <div class="lightbox" id="lightbox">
+      <div class="lightbox-inner">
+        <button
+          class="close-lightbox"
+          onclick="closeLightbox()"
+          aria-label="Tutup"
+        >
+          ×
+        </button>
+        <button
+          class="lb-nav lb-prev"
+          onclick="navLightbox(-1)"
+          aria-label="Sebelumnya"
+        >
+          ‹
+        </button>
+        <button
+          class="lb-nav lb-next"
+          onclick="navLightbox(1)"
+          aria-label="Berikutnya"
+        >
+          ›
+        </button>
+
+        <div class="lightbox-photo" id="lbPhotoWrap">
+          <img id="lbImage" src="" alt="Memory" />
+          <div class="ph-fallback" id="lbFallback"></div>
+        </div>
+
+        <div class="lightbox-content">
+          <div class="lb-count" id="lbCount"></div>
+          <div class="lb-date" id="lbDate"></div>
+          <h2 id="lbTitle"></h2>
+          <p id="lbDescription"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================
+     LETTER MODAL
+========================================================= -->
+    <div class="letter-modal" id="letterModal">
+      <div class="letter-paper">
+        <button class="close-letter" onclick="closeLetter()" aria-label="Tutup">
+          ×
+        </button>
+
+        <h2>Untuk Abe ❤️</h2>
+
+        <p>Selamat ulang tahun, Abe. ❤️</p>
+        <p>
+          Hari ini, 14 Oktober, adalah hari ketika seseorang yang sangat berarti
+          buat aku dilahirkan ke dunia.
+        </p>
+        <p>
+          Seseorang yang pada awalnya bahkan nggak pernah aku bayangkan akan
+          menjadi bagian sebesar ini dalam hidupku.
+        </p>
+        <p>
+          Kita pertama kali kenal di kampus pada tahun 2021. Waktu itu mungkin
+          kita cuma dua orang yang kebetulan dipertemukan dalam satu tempat.
+          Nggak ada yang tahu kalau dari sebuah perkenalan sederhana itu
+          nantinya akan lahir begitu banyak cerita.
+        </p>
+        <p>
+          Januari 2022 kita mulai semakin dekat. Sampai akhirnya 22 Januari 2022
+          menjadi tanggal yang mengubah hubungan kita.
+        </p>
+        <p>Dari hari itu sampai sekarang, kita sudah melewati banyak hal.</p>
+        <p>
+          Kita pernah tertawa bersama, pergi bersama, ngobrol tentang banyak
+          hal, dan membuat kenangan kecil yang mungkin suatu hari nanti akan
+          kita lihat kembali sambil tersenyum.
+        </p>
+        <p>Tapi hubungan bukan cuma tentang hari-hari bahagia.</p>
+        <p>
+          Kita juga pasti pernah berbeda pendapat. Pernah ada salah paham.
+          Pernah ada saat ketika kita sama-sama capek, kecewa, atau mungkin
+          tanpa sengaja saling menyakiti.
+        </p>
+        <p>
+          Tapi justru dari semua itu aku belajar bahwa mencintai seseorang bukan
+          berarti semuanya harus selalu sempurna.
+        </p>
+        <p>
+          Kadang cinta adalah tentang memilih untuk tetap tinggal. Tentang
+          belajar memahami. Tentang belajar memaafkan. Tentang dua orang yang
+          sama-sama punya kekurangan, tapi masih mau berjalan bersama dan terus
+          belajar menjadi lebih baik.
+        </p>
+        <p>
+          Dan salah satu hal yang paling aku syukuri adalah bisa mengenal kamu
+          lebih jauh dari waktu ke waktu.
+        </p>
+        <p>
+          Aku juga nggak akan lupa dengan saat ketika aku sakit dan kamu datang
+          menjenguk serta menjagaku.
+        </p>
+        <p>
+          Mungkin buat kamu itu cuma sebuah hal kecil. Tapi buat aku, itu adalah
+          salah satu bukti bahwa aku nggak sendirian.
+        </p>
+        <p>Terima kasih, Abe.</p>
+        <p>
+          Terima kasih sudah menjadi bagian dari perjalanan hidupku sampai hari
+          ini.
+        </p>
+        <p>
+          Terima kasih untuk setiap waktu, perhatian, kesabaran, tawa, cerita,
+          dan semua kenangan yang sudah kita buat bersama.
+        </p>
+        <p>
+          Aku mungkin bukan orang yang selalu bisa memberikan hal-hal sempurna.
+          Aku juga masih punya banyak kekurangan.
+        </p>
+        <p>
+          Tapi satu hal yang ingin kamu tahu, aku sangat menghargai keberadaan
+          kamu dalam hidupku.
+        </p>
+        <p>
+          Di ulang tahunmu yang ke-24 ini, aku berharap kamu selalu diberikan
+          kesehatan, kebahagiaan, kelancaran dalam setiap langkahmu, dan
+          dikelilingi oleh orang-orang yang benar-benar menyayangi kamu.
+        </p>
+        <p>
+          Semoga semua hal yang sedang kamu perjuangkan perlahan menemukan
+          jalannya.
+        </p>
+        <p>
+          Semoga kamu tetap menjadi Abe yang aku kenal — dengan segala
+          kelebihan, kekurangan, keras kepala, lucu, dan semua hal kecil yang
+          membuat kamu menjadi diri kamu sendiri.
+        </p>
+        <p>Dan untuk hubungan kita...</p>
+        <p>
+          Aku nggak tahu persis seperti apa perjalanan kita ke depannya. Tapi
+          aku berharap kita masih bisa membuat banyak cerita lagi.
+        </p>
+        <p>
+          Lebih banyak tempat yang kita datangi. Lebih banyak foto yang kita
+          ambil. Lebih banyak tawa yang kita bagi. Lebih banyak hari ulang tahun
+          yang bisa kita rayakan bersama.
+        </p>
+        <p>Dan lebih banyak alasan untuk saling memilih, lagi dan lagi.</p>
+        <p>
+          Kalau suatu hari nanti kita melihat kembali website kecil ini, aku
+          ingin kita bisa tersenyum dan berkata,
+        </p>
+        <p style="text-align: center; color: var(--rose-deep)">
+          <strong>"Ternyata kita sudah sejauh ini."</strong>
+        </p>
+        <p>Selamat ulang tahun, Abe.</p>
+        <p>
+          Semoga hari ini menjadi awal dari satu tahun baru yang jauh lebih
+          indah untuk kamu.
+        </p>
+        <p>Jangan lupa bahwa kamu berharga. Jangan lupa bahwa kamu dicintai.</p>
+        <p>Dan jangan lupa...</p>
+        <p style="text-align: center; color: var(--rose-deep)">
+          <strong
+            >ada aku yang selalu mendoakan yang terbaik untuk kamu. ❤️</strong
+          >
+        </p>
+        <p>Happy 24th Birthday, Abe.</p>
+        <p class="letter-signature">
+          — Dari seseorang yang sangat bersyukur pernah bertemu denganmu. ❤️
+        </p>
+      </div>
+    </div>
+
+    <script>
+      /* =============================================================
+   PIN
+   Ganti "141002" di bawah ini kalau mau ganti PIN.
+============================================================= */
+      const correctPin = "141002";
+
+      function checkPin() {
+        const input = document.getElementById("pinInput");
+        const error = document.getElementById("pinError");
+
+        if (input.value === correctPin) {
+          document.getElementById("pinScreen").classList.add("hidden");
+          document.getElementById("mainContent").style.display = "block";
+          document.body.style.overflow = "auto";
+          startHearts();
+        } else {
+          error.textContent = "Hmm... PIN-nya belum benar ❤️";
+          input.value = "";
+          input.animate(
+            [
+              { transform: "translateX(0)" },
+              { transform: "translateX(-8px)" },
+              { transform: "translateX(8px)" },
+              { transform: "translateX(-5px)" },
+              { transform: "translateX(0)" },
+            ],
+            { duration: 350 },
+          );
+        }
+      }
+      document.getElementById("pinInput").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") checkPin();
+      });
+
+      /* =============================================================
+   TIMELINE DATA
+   Tambah/ubah objek di sini untuk menambah milestone baru.
+   type "milestone" = titik penuh (momen besar), "" = titik biasa.
+============================================================= */
+      const timelineData = [
+        {
+          date: "2021",
+          title: "Pertemuan Pertama",
+          type: "milestone",
+          desc: "Kita pertama kali bertemu di kampus, jurusan Kewirausahaan. Belum ada yang tahu kalau pertemuan sederhana ini akan membawa kita sejauh ini.",
+        },
+        {
+          date: "Januari 2022",
+          title: "Mulai Semakin Dekat",
+          type: "",
+          desc: "Perlahan, kita mulai lebih sering menghabiskan waktu bersama dan saling terbuka satu sama lain.",
+        },
+        {
+          date: "22 Januari 2022",
+          title: "Hari Jadian",
+          type: "milestone",
+          desc: "Tanggal yang mengubah hubungan kita menjadi lebih dari sekadar teman kampus.",
+        },
+        {
+          date: "Tambahkan momen berikutnya",
+          title: "Ceritamu Belum Selesai",
+          type: "add-more",
+          desc: "Klik file HTML ini dan tambahkan objek baru di 'timelineData' untuk milestone berikutnya — misalnya liburan pertama, ulang tahun pertama bersama, atau momen spesial lainnya.",
+        },
+      ];
+
+      const timelineTrack = document.getElementById("timelineTrack");
+      timelineData.forEach((item) => {
+        const el = document.createElement("div");
+        el.className =
+          "timeline-item" +
+          (item.type === "milestone" ? " is-milestone" : "") +
+          (item.type === "add-more" ? " add-more" : "");
+        el.innerHTML = `
+        <div class="timeline-dot"></div>
+        <span class="t-date">${item.date}</span>
+        <h3>${item.title}</h3>
+        <p>${item.desc}</p>
+    `;
+        timelineTrack.appendChild(el);
+      });
+
+      /* =============================================================
+   15 MEMORIES
+   - image: taruh file foto kamu di folder "asset/" dengan nama sama,
+     atau ganti path-nya sesuai lokasi foto kamu.
+   - Cerita nomor 4-14 masih draft generik, silakan edit sesuai momen aslinya.
+============================================================= */
+      const memories = [
+        {
+          number: "01",
+          title: "Awal dari Semuanya",
+          date: "2021",
+          image: "asset/foto-1.jpeg",
+          description:
+            "Dari sekian banyak orang yang bisa kita temui di dunia ini, entah bagaimana kita dipertemukan di tempat yang sama. Mungkin waktu itu kita belum tahu akan menjadi apa satu sama lain. Tapi ternyata, pertemuan sederhana itu adalah awal dari cerita yang sangat berarti.",
+        },
+        {
+          number: "02",
+          title: "Saat Kita Mulai Dekat",
+          date: "Januari 2022",
+          image: "asset/foto-2.jpeg",
+          description:
+            "Dari yang awalnya hanya saling mengenal, perlahan mulai ada lebih banyak cerita yang kita bagi. Dan tanpa sadar, kamu mulai menjadi seseorang yang selalu ingin aku cari.",
+        },
+        {
+          number: "03",
+          title: "22 Januari 2022 ❤️",
+          date: "22 Januari 2022",
+          image: "asset/foto-3.jpeg",
+          description:
+            "Hari ketika hubungan kita resmi dimulai. Mungkin tanggal ini terlihat sederhana bagi orang lain, tapi buat aku, tanggal ini akan selalu punya tempat tersendiri.",
+        },
+        {
+          number: "04",
+          title: "[Edit: Beri judul momen ini]",
+          date: "[Edit: isi tanggal]",
+          image: "asset/foto-4.jpeg",
+          description:
+            "[Edit: ceritakan momen di foto ini — di mana kalian, sedang apa, dan kenapa momen ini berkesan buat kamu.]",
+        },
+        {
+          number: "05",
+          title: "[Edit: Beri judul momen ini]",
+          date: "[Edit: isi tanggal]",
+          image: "asset/foto-5.jpeg",
+          description:
+            "[Edit: mungkin ini terasa seperti hari biasa saat itu, tapi ceritakan kenapa momen ini justru jadi salah satu yang ingin kamu simpan.]",
+        },
+        {
+          number: "06",
+          title: "[Edit: Beri judul momen ini]",
+          date: "[Edit: isi tanggal]",
+          image: "asset/foto-6.jpeg",
+          description:
+            "[Edit: ceritakan hal kecil yang terjadi di momen ini — kadang justru hal sederhana yang paling diingat.]",
+        },
+        {
+          number: "07",
+          title: "[Edit: Beri judul momen ini]",
+          date: "[Edit: isi tanggal]",
+          image: "asset/foto-7.jpeg",
+          description:
+            "[Edit: satu lagi potongan cerita kalian — tulis dengan gaya bahasamu sendiri ya.]",
+        },
+        {
+          number: "08",
+          title: "[Edit: Beri judul momen ini]",
+          date: "[Edit: isi tanggal]",
+          image: "asset/foto-8.jpeg",
+          description:
+            "[Edit: hari ini mungkin sudah berlalu, tapi ceritakan kenapa kenangannya masih melekat.]",
+        },
+        {
+          number: "09",
+          title: "[Edit: Beri judul momen ini]",
+          date: "[Edit: isi tanggal]",
+          image: "asset/foto-9.jpeg",
+          description:
+            "[Edit: ceritakan apa yang berubah, atau justru apa yang tetap sama, di momen ini.]",
+        },
+        {
+          number: "10",
+          title: "[Edit: Beri judul momen ini]",
+          date: "[Edit: isi tanggal]",
+          image: "asset/foto-10.jpeg",
+          description:
+            "[Edit: pengingat bahwa kalian pernah melewati momen ini bersama — ceritakan detailnya.]",
+        },
+        {
+          number: "11",
+          title: "[Edit: Beri judul momen ini]",
+          date: "[Edit: isi tanggal]",
+          image: "asset/foto-11.jpeg",
+          description:
+            "[Edit: salah satu momen yang ingin selalu kamu simpan — kenapa momen ini spesial?]",
+        },
+        {
+          number: "12",
+          title: "[Edit: Beri judul momen ini]",
+          date: "[Edit: isi tanggal]",
+          image: "asset/foto-12.jpeg",
+          description:
+            "[Edit: bukan cuma soal fotonya, tapi siapa yang ada di dalamnya — ceritakan momennya.]",
+        },
+        {
+          number: "13",
+          title: "[Edit: Beri judul momen ini]",
+          date: "[Edit: isi tanggal]",
+          image: "asset/foto-13.jpeg",
+          description:
+            "[Edit: semakin banyak kenangan yang kalian buat, semakin panjang cerita yang bisa diceritakan nanti.]",
+        },
+        {
+          number: "14",
+          title: "[Edit: Beri judul momen ini]",
+          date: "[Edit: isi tanggal]",
+          image: "asset/foto-14.jpeg",
+          description:
+            "[Edit: satu lagi kenangan sebelum akhirnya sampai di hari spesial ini.]",
+        },
+        {
+          number: "15",
+          title: "To Be Continued ❤️",
+          date: "Hari ini",
+          image: "asset/foto-15.jpeg",
+          description:
+            "Kalau 15 foto ini adalah bagian dari cerita kita, aku berharap ceritanya belum selesai. Masih banyak tempat yang ingin kita datangi, banyak hal yang ingin kita lakukan, dan banyak kenangan yang ingin kita buat bersama.",
+        },
+      ];
+
+      const memoryGrid = document.getElementById("memoryGrid");
+      memories.forEach((memory, index) => {
+        const card = document.createElement("div");
+        card.className = "memory-card";
+        card.tabIndex = 0;
+        card.setAttribute("role", "button");
+        card.setAttribute("aria-label", "Buka " + memory.title);
+        card.onclick = () => openLightbox(index);
+        card.onkeydown = (e) => {
+          if (e.key === "Enter") openLightbox(index);
+        };
+
+        card.innerHTML = `
+        <div class="memory-photo">
+            <img src="${memory.image}" alt="${memory.title}" loading="lazy"
+                 onload="this.classList.add('loaded')"
+                 onerror="this.style.display='none'">
+            <div class="ph-fallback"><span class="ph-icon">🤍</span><span>Foto menyusul</span></div>
+        </div>
+        <div class="memory-info">
+            <div class="memory-number">Momen ${memory.number}</div>
+            <h3>${memory.title}</h3>
+            <div class="memory-date">${memory.date}</div>
+        </div>
+    `;
+        memoryGrid.appendChild(card);
+      });
+
+      /* =============================================================
+   LIGHTBOX — buka foto full-screen + swipe di mobile
+============================================================= */
+      let lbIndex = 0;
+
+      function renderLightbox() {
+        const memory = memories[lbIndex];
+        const img = document.getElementById("lbImage");
+        img.src = memory.image;
+        img.alt = memory.title;
+        img.classList.remove("loaded");
+        img.style.display = "block";
+
+        document.getElementById("lbCount").textContent =
+          lbIndex + 1 + " / " + memories.length;
+        document.getElementById("lbDate").textContent = memory.date;
+        document.getElementById("lbTitle").textContent = memory.title;
+        document.getElementById("lbDescription").textContent =
+          memory.description;
+
+        document.querySelector(".lb-prev").disabled = lbIndex === 0;
+        document.querySelector(".lb-next").disabled =
+          lbIndex === memories.length - 1;
+      }
+
+      function openLightbox(index) {
+        lbIndex = index;
+        renderLightbox();
+        document.getElementById("lightbox").classList.add("show");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLightbox() {
+        document.getElementById("lightbox").classList.remove("show");
+        document.body.style.overflow = "auto";
+      }
+
+      function navLightbox(dir) {
+        const next = lbIndex + dir;
+        if (next < 0 || next > memories.length - 1) return;
+        lbIndex = next;
+        renderLightbox();
+      }
+
+      document.getElementById("lbImage").addEventListener("error", function () {
+        this.style.display = "none";
+      });
+
+      document
+        .getElementById("lightbox")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeLightbox();
+        });
+
+      /* Swipe kiri/kanan di mobile */
+      let touchStartX = 0,
+        touchEndX = 0;
+      const lbEl = document.getElementById("lightbox");
+      lbEl.addEventListener(
+        "touchstart",
+        (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        },
+        { passive: true },
+      );
+      lbEl.addEventListener(
+        "touchend",
+        (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          const delta = touchEndX - touchStartX;
+          if (Math.abs(delta) > 50) {
+            navLightbox(delta < 0 ? 1 : -1);
+          }
+        },
+        { passive: true },
+      );
+
+      /* =============================================================
+   LETTER MODAL
+============================================================= */
+      function openLetter() {
+        document.getElementById("letterModal").classList.add("show");
+        document.body.style.overflow = "hidden";
+      }
+      function closeLetter() {
+        document.getElementById("letterModal").classList.remove("show");
+        document.body.style.overflow = "auto";
+      }
+      document
+        .getElementById("letterModal")
+        .addEventListener("click", function (e) {
+          if (e.target === this) closeLetter();
+        });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeLightbox();
+          closeLetter();
+        }
+        if (
+          e.key === "ArrowRight" &&
+          document.getElementById("lightbox").classList.contains("show")
+        )
+          navLightbox(1);
+        if (
+          e.key === "ArrowLeft" &&
+          document.getElementById("lightbox").classList.contains("show")
+        )
+          navLightbox(-1);
+      });
+
+      /* =============================================================
+   COUNTDOWN
+   Ganti bulan/tanggal di bawah kalau perlu (bulan: 0=Jan ... 11=Des).
+============================================================= */
+      const BIRTHDAY_MONTH = 9; // Oktober (0-indexed)
+      const BIRTHDAY_DAY = 14;
+      const ANNIV_MONTH = 0; // Januari (0-indexed)
+      const ANNIV_DAY = 22;
+
+      function nextOccurrence(month, day) {
+        const now = new Date();
+        let target = new Date(now.getFullYear(), month, day, 0, 0, 0);
+        if (target < now) {
+          target = new Date(now.getFullYear() + 1, month, day, 0, 0, 0);
+        }
+        return target;
+      }
+
+      function renderCountdown(elId, targetDate) {
+        const el = document.getElementById(elId);
+        const now = new Date();
+        let diff = Math.max(0, targetDate - now);
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        el.innerHTML = `
+        <div class="cd-unit"><span class="num">${days}</span><span class="label">hari</span></div>
+        <div class="cd-unit"><span class="num">${hours}</span><span class="label">jam</span></div>
+        <div class="cd-unit"><span class="num">${minutes}</span><span class="label">menit</span></div>
+        <div class="cd-unit"><span class="num">${seconds}</span><span class="label">detik</span></div>
+    `;
+      }
+
+      function tickCountdowns() {
+        renderCountdown(
+          "cdBirthday",
+          nextOccurrence(BIRTHDAY_MONTH, BIRTHDAY_DAY),
+        );
+        renderCountdown(
+          "cdAnniversary",
+          nextOccurrence(ANNIV_MONTH, ANNIV_DAY),
+        );
+      }
+      tickCountdowns();
+      setInterval(tickCountdowns, 1000);
+
+      /* =============================================================
+   FLOATING HEARTS
+============================================================= */
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.className = "floating-heart";
+        const hearts = ["♡", "♥", "❤", "💕"];
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = 12 + Math.random() * 18 + "px";
+        heart.style.animationDuration = 5 + Math.random() * 4 + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 9500);
+      }
+      function startHearts() {
+        setInterval(createHeart, 1800);
+      }
+
+      /* INITIAL STATE */
+      document.body.style.overflow = "hidden";
+    </script>
+  </body>
+</html>
